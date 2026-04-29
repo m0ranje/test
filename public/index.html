@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Тестирование</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <a class="brand" href="/">
+        <span class="brand-mark">QR</span>
+        <span>
+          <h1 data-test-title>Тестирование</h1>
+          <p>JSON-файлы внутри проекта</p>
+        </span>
+      </a>
+      <nav class="nav">
+        <a href="/test">Пройти тест</a>
+        <a href="/admin/login">Администратор</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <h2>Тестирование</h2>
+          <p>Участник открывает ссылку, выбирает ответы и проходит тест один раз. Администратор видит результаты, диаграммы, QR-code и экспорт CSV.</p>
+          <div class="hero-actions">
+            <a class="button" href="/test">Начать тест</a>
+            <a class="ghost-button" href="/admin/login">Войти в админ-панель</a>
+          </div>
+        </div>
+        <aside class="card">
+          <div class="card-body form">
+            <span class="status-pill" data-test-status>Проверка статуса</span>
+            <div class="qr-box" style="min-height: 300px;">
+              <img class="qr-image" data-home-qr-image alt="QR-code на страницу теста">
+            </div>
+            <p class="muted">Отсканируйте QR-code, чтобы открыть тест на телефоне.</p>
+            <p class="url-box" data-home-qr-url></p>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

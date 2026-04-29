@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Статистика</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <a class="brand" href="/admin">
+        <span class="brand-mark">QR</span>
+        <span>
+          <h1>Статистика</h1>
+          <p>Всего участников: <b data-total-participants>0</b></p>
+        </span>
+      </a>
+      <nav class="nav" data-admin-nav></nav>
+    </header>
+
+    <section class="stat-list" data-stat-list></section>
+  </main>
+  <script src="/vendor/chart.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>

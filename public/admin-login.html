@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Вход администратора</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <a class="brand" href="/">
+        <span class="brand-mark">QR</span>
+        <span>
+          <h1>Вход администратора</h1>
+          <p>Логин: admin, пароль: admin123</p>
+        </span>
+      </a>
+    </header>
+
+    <section class="split-grid">
+      <form class="card" data-login-form>
+        <div class="card-body form">
+          <div class="field">
+            <label for="username">Логин</label>
+            <input class="input" id="username" name="username" value="admin" autocomplete="username" required>
+          </div>
+          <div class="field">
+            <label for="password">Пароль</label>
+            <input class="input" id="password" name="password" type="password" value="admin123" autocomplete="current-password" required>
+          </div>
+          <button class="button" type="submit">Войти</button>
+          <div class="message" data-message></div>
+        </div>
+      </form>
+      <aside class="card">
+        <div class="card-body">
+          <h2>Админ-панель</h2>
+          <p class="muted">Редактирование вопросов, QR-code, диаграммы, экспорт CSV и управление состоянием теста.</p>
+        </div>
+      </aside>
+    </section>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

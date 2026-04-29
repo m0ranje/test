@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Панель администратора</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="page" data-dashboard>
+    <header class="topbar">
+      <a class="brand" href="/admin">
+        <span class="brand-mark">QR</span>
+        <span>
+          <h1>Панель администратора</h1>
+          <p>Управление тестированием</p>
+        </span>
+      </a>
+      <nav class="nav" data-admin-nav></nav>
+    </header>
+
+    <section class="metric-grid">
+      <div class="metric">
+        <span>Участников</span>
+        <strong data-participants>0</strong>
+      </div>
+      <div class="metric">
+        <span>Вопросов</span>
+        <strong data-questions-count>5</strong>
+      </div>
+      <div class="metric">
+        <span>Статус</span>
+        <strong class="status-pill" data-status>...</strong>
+      </div>
+    </section>
+
+    <section class="dashboard-grid" style="margin-top: 20px;">
+      <article class="card">
+        <div class="card-body">
+          <h2>Быстрые действия</h2>
+          <p class="muted">Ссылка теста: <span class="url-box" data-test-url></span></p>
+          <div class="admin-actions">
+            <a class="button" href="/admin/statistics">Открыть статистику</a>
+            <a class="ghost-button" href="/admin/questions">Редактировать вопросы</a>
+            <a class="ghost-button" href="/admin/qr">Показать QR-code</a>
+            <a class="ghost-button" href="/api/export-csv">Экспорт CSV</a>
+            <button class="ghost-button" type="button" data-toggle-test>Включить/выключить тест</button>
+            <button class="danger-button" type="button" data-clear-results>Очистить результаты</button>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="card-body">
+          <h2>QR-code</h2>
+          <div class="qr-box" style="min-height: 260px;">
+            <img class="qr-image" data-dashboard-qr-image alt="QR-code на страницу теста">
+          </div>
+          <p class="muted">Отсканируйте код, чтобы открыть страницу тестирования.</p>
+        </div>
+      </article>
+    </section>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Редактирование вопросов</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <a class="brand" href="/admin">
+        <span class="brand-mark">QR</span>
+        <span>
+          <h1>Редактирование вопросов</h1>
+          <p>Ровно 5 вопросов, по 2–4 варианта ответа</p>
+        </span>
+      </a>
+      <nav class="nav" data-admin-nav></nav>
+    </header>
+
+    <form class="form" data-questions-form>
+      <div class="editor-list" data-editor-list></div>
+      <button class="button" type="submit">Сохранить вопросы</button>
+      <div class="message" data-message></div>
+    </form>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

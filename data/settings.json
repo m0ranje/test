@@ -1,0 +1,5 @@
+{
+  "testEnabled": true,
+  "testTitle": "Тестирование",
+  "testUrl": "http://localhost:3000/test"
+}

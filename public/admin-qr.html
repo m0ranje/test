@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QR-code</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <a class="brand" href="/admin">
+        <span class="brand-mark">QR</span>
+        <span>
+          <h1>QR-code</h1>
+          <p>Ссылка на страницу прохождения теста</p>
+        </span>
+      </a>
+      <nav class="nav" data-admin-nav></nav>
+    </header>
+
+    <section class="split-grid">
+      <article class="card">
+        <div class="card-body qr-box">
+          <img class="qr-image" data-qr-image alt="QR-code">
+        </div>
+      </article>
+      <article class="card">
+        <div class="card-body">
+          <h2>Адрес теста</h2>
+          <p class="url-box" data-qr-url></p>
+          <div class="admin-actions">
+            <a class="button" href="/test">Открыть тест</a>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>
