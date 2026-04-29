@@ -162,6 +162,14 @@ async function initTest() {
       submit.disabled = true;
       submit.textContent = 'Сохранение...';
 
+      const participantName = form.participantName.value.trim();
+      if (participantName.length < 2) {
+        submit.disabled = false;
+        submit.textContent = 'Отправить ответы';
+        showMessage(message, 'Введите ваше имя', true);
+        return;
+      }
+
       const answers = data.questions.map(question => {
         const checked = form.querySelector(`input[name="question_${question.id}"]:checked`);
         return {
@@ -182,6 +190,7 @@ async function initTest() {
           method: 'POST',
           body: JSON.stringify({
             participantId: getParticipantId(),
+            participantName,
             answers
           })
         });
@@ -240,7 +249,9 @@ async function initDashboard() {
     document.querySelector('[data-participants]').textContent = data.participantsCount;
     document.querySelector('[data-questions-count]').textContent = stats.questions.length;
     const status = document.querySelector('[data-status]');
-    status.textContent = data.settings.testEnabled ? 'Включён' : 'Выключен';
+    status.textContent = data.settings.testEnabled ? '✓' : '×';
+    status.setAttribute('aria-label', data.settings.testEnabled ? 'Тест работает' : 'Тест выключен');
+    status.title = data.settings.testEnabled ? 'Тест работает' : 'Тест выключен';
     status.classList.toggle('off', !data.settings.testEnabled);
     document.querySelector('[data-test-url]').textContent = data.settings.testUrl;
 

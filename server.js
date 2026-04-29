@@ -377,12 +377,17 @@ app.post('/api/submit', async (req, res) => {
   }
 
   const participantId = String(req.body.participantId || '').trim();
+  const participantName = String(req.body.participantName || '').trim();
   const answers = Array.isArray(req.body.answers) ? req.body.answers : [];
   const ip = getClientIp(req);
   const userAgent = String(req.headers['user-agent'] || 'unknown');
 
   if (!/^user_[a-zA-Z0-9_-]{8,80}$/.test(participantId)) {
     return res.status(400).json({ ok: false, message: 'Не удалось определить участника' });
+  }
+
+  if (participantName.length < 2 || participantName.length > 80) {
+    return res.status(400).json({ ok: false, message: 'Введите ваше имя' });
   }
 
   if (!validateSubmittedAnswers(questions, answers)) {
@@ -397,9 +402,10 @@ app.post('/api/submit', async (req, res) => {
   }
 
   const date = nowLocal();
-  const participant = { participantId, ip, userAgent, date };
+  const participant = { participantId, name: participantName, ip, userAgent, date };
   const result = {
     participantId,
+    participantName,
     date,
     answers: questions.map(question => {
       const answer = answers.find(item => Number(item.questionId) === Number(question.id));
@@ -486,13 +492,14 @@ app.get('/api/export-csv', isAdmin, async (req, res) => {
   ]);
 
   const participantMap = new Map(participants.map(item => [item.participantId, item]));
-  const header = ['participantId', 'date', 'ip', 'userAgent', ...questions.map(question => `Вопрос ${question.id}`)];
+  const header = ['participantId', 'name', 'date', 'ip', 'userAgent', ...questions.map(question => `Вопрос ${question.id}`)];
   const rows = [header.map(escapeCsv).join(',')];
 
   for (const result of results) {
     const participant = participantMap.get(result.participantId) || {};
     const row = [
       result.participantId,
+      result.participantName || participant.name || '',
       result.date,
       participant.ip || '',
       participant.userAgent || ''

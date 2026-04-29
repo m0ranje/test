@@ -262,6 +262,24 @@ textarea {
   background: rgba(0, 0, 0, 0.04);
 }
 
+.status-icon {
+  display: grid;
+  width: 58px;
+  height: 58px;
+  margin-top: 12px;
+  place-items: center;
+  border: 2px solid #000;
+  color: #000;
+  background: #fff;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.status-icon.off {
+  color: #fff;
+  background: #000;
+}
+
 .form {
   display: grid;
   gap: 18px;
