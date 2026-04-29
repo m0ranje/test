@@ -131,6 +131,19 @@ function page(name) {
   return path.join(PUBLIC_DIR, name);
 }
 
+function sendPage(name) {
+  return (req, res, next) => {
+    res.sendFile(page(name), error => {
+      if (!error) {
+        return;
+      }
+
+      console.error(`Не удалось отдать страницу ${name}:`, error.message);
+      next(error);
+    });
+  };
+}
+
 function isAdmin(req, res, next) {
   if (req.session && req.session.admin) {
     return next();
@@ -261,13 +274,35 @@ function escapeCsv(value) {
   return `"${text.replaceAll('"', '""')}"`;
 }
 
-app.get('/', (req, res) => res.sendFile(page('index.html')));
-app.get('/test', (req, res) => res.sendFile(page('test.html')));
-app.get('/admin/login', (req, res) => res.sendFile(page('admin-login.html')));
-app.get('/admin', isAdminPage, (req, res) => res.sendFile(page('admin.html')));
-app.get('/admin/questions', isAdminPage, (req, res) => res.sendFile(page('admin-questions.html')));
-app.get('/admin/statistics', isAdminPage, (req, res) => res.sendFile(page('admin-statistics.html')));
-app.get('/admin/qr', isAdminPage, (req, res) => res.sendFile(page('admin-qr.html')));
+app.get('/health', async (req, res) => {
+  let publicFiles = [];
+  let indexExists = false;
+
+  try {
+    publicFiles = await fs.readdir(PUBLIC_DIR);
+    indexExists = publicFiles.includes('index.html');
+  } catch (error) {
+    publicFiles = [`Ошибка чтения public: ${error.message}`];
+  }
+
+  res.json({
+    ok: true,
+    app: 'qr-testing-json',
+    root: ROOT,
+    publicDir: PUBLIC_DIR,
+    indexExists,
+    publicFiles,
+    testUrl: `${getBaseUrl(req)}/test`
+  });
+});
+
+app.get('/', sendPage('index.html'));
+app.get('/test', sendPage('test.html'));
+app.get('/admin/login', sendPage('admin-login.html'));
+app.get('/admin', isAdminPage, sendPage('admin.html'));
+app.get('/admin/questions', isAdminPage, sendPage('admin-questions.html'));
+app.get('/admin/statistics', isAdminPage, sendPage('admin-statistics.html'));
+app.get('/admin/qr', isAdminPage, sendPage('admin-qr.html'));
 
 app.post('/api/admin/login', async (req, res) => {
   const admin = await readJson(files.admin, defaultAdmin);
@@ -479,7 +514,24 @@ app.get('/api/export-csv', isAdmin, async (req, res) => {
 });
 
 app.use((req, res) => {
-  res.status(404).sendFile(page('404.html'));
+  res.status(404).sendFile(page('404.html'), error => {
+    if (error) {
+      res.type('text').send('Страница не найдена');
+    }
+  });
+});
+
+app.use((error, req, res, next) => {
+  if (res.headersSent) {
+    return next(error);
+  }
+
+  res.status(error.statusCode || error.status || 500).json({
+    ok: false,
+    message: 'Ошибка отдачи страницы',
+    details: error.message,
+    publicDir: PUBLIC_DIR
+  });
 });
 
 ensureDataFiles()
