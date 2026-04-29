@@ -412,8 +412,13 @@ textarea {
 
 .stat-lines {
   display: grid;
-  gap: 8px;
+  gap: 14px;
   margin: 18px 0;
+}
+
+.stat-row {
+  display: grid;
+  gap: 8px;
 }
 
 .stat-line {
@@ -421,6 +426,31 @@ textarea {
   justify-content: space-between;
   gap: 12px;
   color: var(--muted);
+}
+
+.stat-line strong {
+  color: var(--text);
+}
+
+.stat-bar {
+  width: 100%;
+  height: 16px;
+  border: 1px solid #000;
+  background: #fff;
+}
+
+.stat-bar span {
+  display: block;
+  height: 100%;
+  background: #000;
+}
+
+.stat-bar.yes span {
+  background: #16a34a;
+}
+
+.stat-bar.no span {
+  background: #dc2626;
 }
 
 .chart-wrap {

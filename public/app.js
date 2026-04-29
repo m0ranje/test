@@ -361,9 +361,14 @@ async function initStatistics() {
           <h3>${index + 1}. ${escapeHtml(question.text)}</h3>
           <div class="stat-lines">
             ${question.variants.map(variant => `
-              <div class="stat-line">
-                <span>${escapeHtml(variant.text)}</span>
-                <strong>${variant.count} чел., ${variant.percent}%</strong>
+              <div class="stat-row">
+                <div class="stat-line">
+                  <span>${escapeHtml(variant.text)}</span>
+                  <strong>${variant.count} чел., ${variant.percent}%</strong>
+                </div>
+                <div class="stat-bar ${getAnswerToneClass(variant.text)}" aria-hidden="true">
+                  <span style="width: ${Math.max(variant.percent, variant.count > 0 ? 4 : 0)}%"></span>
+                </div>
               </div>
             `).join('')}
           </div>
@@ -383,10 +388,12 @@ async function initStatistics() {
           datasets: [{
             label: 'Ответы',
             data: question.variants.map(item => item.count),
-            backgroundColor: ['#ffffff', '#d4d4d4', '#a3a3a3', '#737373'],
-            borderColor: ['#ffffff', '#f5f5f5', '#d4d4d4', '#a3a3a3'],
+            backgroundColor: question.variants.map(item => getAnswerColor(item.text)),
+            borderColor: question.variants.map(item => getAnswerBorderColor(item.text)),
             borderWidth: 1,
-            borderRadius: 8
+            borderRadius: 0,
+            barPercentage: 0.58,
+            categoryPercentage: 0.7
           }]
         },
         options: {
@@ -410,6 +417,7 @@ async function initStatistics() {
             },
             y: {
               beginAtZero: true,
+              suggestedMax: Math.max(1, ...question.variants.map(item => item.count)),
               ticks: { color: '#000000', precision: 0 },
               grid: { color: 'rgba(0, 0, 0, 0.14)' }
             }
@@ -420,6 +428,27 @@ async function initStatistics() {
   } catch (error) {
     if (error.message.includes('администратора')) location.href = '/admin/login';
   }
+}
+
+function getAnswerToneClass(text) {
+  const normalized = String(text).trim().toLowerCase();
+  if (normalized === 'да') return 'yes';
+  if (normalized === 'нет') return 'no';
+  return '';
+}
+
+function getAnswerColor(text) {
+  const normalized = String(text).trim().toLowerCase();
+  if (normalized === 'да') return '#16a34a';
+  if (normalized === 'нет') return '#dc2626';
+  return '#737373';
+}
+
+function getAnswerBorderColor(text) {
+  const normalized = String(text).trim().toLowerCase();
+  if (normalized === 'да') return '#166534';
+  if (normalized === 'нет') return '#991b1b';
+  return '#000000';
 }
 
 async function initQr() {
